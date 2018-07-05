@@ -25,14 +25,16 @@ var upload = multer({dest: 'uploads/'});
 var os = require('os');
 
 // Set up auth
-var gcloud = require('@google-cloud/vision')({
-  keyFilename: 'key.json',
-  projectId: 'gcpdemoproject'
-});
+var vision = require('@google-cloud/vision');
+
+// ({
+//   keyFilename: 'key.json',
+//   projectId: 'gcpdemoproject'
+// });
 
 var hostname = os.hostname();
 
-var vision = gcloud.vision();
+// var vision = gcloud.vision();
 
 var app = express();
 

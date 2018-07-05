@@ -88,7 +88,8 @@ app.post('/upload', upload.single('image'), function(req, res, next) {
 
       // Write out the JSON output of the Vision API
       res.write(JSON.stringify(detections, null, 4));
-
+      res.write('<p>');
+      res.write(detections);
       // Delete file (optional)
       fs.unlinkSync(req.file.path);
 

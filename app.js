@@ -68,6 +68,13 @@ app.post('/upload', upload.single('image'), function(req, res, next) {
   // Choices are: faces, landmarks, labels, logos, properties, safeSearch, texts
   var types = ['labels'];
   // Send the image to the Cloud Vision API
+  var request = {
+      image: {
+          source: {
+              filename:req.file.path
+          }
+        }
+  }
   vision1.labelDetection(request, function(err, detections) {
     if (err) {
       res.end('Cloud Vision Error');

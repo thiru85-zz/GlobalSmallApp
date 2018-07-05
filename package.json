@@ -1,0 +1,17 @@
+{
+  "name": "cloud-vision-nodejs",
+  "version": "1.0.0",
+  "description": "example of using the Cloud Vision API with Node.js",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Thirumalai Aiyalu, cloned from Sandeep Dinesh",
+  "dependencies": {
+    "express": "latest",
+    "gcloud": "latest",
+    "mime": "latest",
+    "multer": "latest"
+  },
+  "license": "Apache-2.0"
+}

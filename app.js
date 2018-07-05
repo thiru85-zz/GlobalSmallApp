@@ -98,7 +98,12 @@ console.log('Server Started on port 8080');
 
 // Turn image into Base64 so we can display it easily
 
-function base64Image(src) {
-  var data = fs.readFileSync(src).toString('base64');
-  return util.format('data:%s;base64,%s', mime.lookup(src), data);
+// function base64Image(src) {
+//   var data = fs.readFileSync(src).toString('base64');
+//   return util.format('data:%s;base64,%s', mime.lookup(src), data);
+// }
+
+funtion base64Image(input) {
+    var data = fs.readFileSync(input);
+    return new Buffer(bitmap).toString('base64');
 }

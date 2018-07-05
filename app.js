@@ -34,7 +34,11 @@ var vision = require('@google-cloud/vision');
 
 var hostname = os.hostname();
 
-var vision1 = new vision.ImageAnnotatorClient();
+var vision1 = new vision.ImageAnnotatorClient({
+
+    keyFilename:'key.json',
+    projectId: 'gcpdemoproject'
+});
 
 var app = express();
 
@@ -62,9 +66,11 @@ app.post('/upload', upload.single('image'), function(req, res, next) {
   // Choose what the Vision API should detect
   // Choices are: faces, landmarks, labels, logos, properties, safeSearch, texts
   var types = ['labels'];
-
+  var request = {
+      image: {source: {filename: req.file.path} },
+  }
   // Send the image to the Cloud Vision API
-  vision1.labelDetection(req.file.path, function(err, detections, apiResponse) {
+  vision1.labelDetection(request, function(err, detections) {
     if (err) {
       res.end('Cloud Vision Error');
     } else {

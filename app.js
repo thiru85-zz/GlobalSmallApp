@@ -75,7 +75,7 @@ app.post('/upload', upload.single('image'), function(req, res, next) {
           }
         }
   }
-  vision1.labelDetection(request, function(err, detections) {
+  vision1.webDetection(request, function(err, detections) {
     if (err) {
       res.end('Cloud Vision Error');
     } else {
@@ -87,9 +87,9 @@ app.post('/upload', upload.single('image'), function(req, res, next) {
       res.write('<img width=200 src="' + base64Image(req.file.path) + '"><br>');
 
       // Write out the JSON output of the Vision API
-      res.write(JSON.stringify(detections, null, 4));
+      res.write(JSON.stringify(detections, null, 10));
       res.write('<p>');
-      res.write(detections);
+      console.log(detections);
       // Delete file (optional)
       fs.unlinkSync(req.file.path);
 

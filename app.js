@@ -34,7 +34,7 @@ var vision = require('@google-cloud/vision');
 
 var hostname = os.hostname();
 
-// var vision = gcloud.vision();
+var vision1 = new vision.ImageAnnotatorClient();
 
 var app = express();
 
@@ -64,7 +64,7 @@ app.post('/upload', upload.single('image'), function(req, res, next) {
   var types = ['labels'];
 
   // Send the image to the Cloud Vision API
-  vision.detect(req.file.path, types, function(err, detections, apiResponse) {
+  vision1.labelDetection(req.file.path, function(err, detections, apiResponse) {
     if (err) {
       res.end('Cloud Vision Error');
     } else {

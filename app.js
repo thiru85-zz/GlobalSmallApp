@@ -43,19 +43,22 @@ var vision1 = new vision.ImageAnnotatorClient({
 var app = express();
 
 // Simple upload form
-var form = '<!DOCTYPE HTML><html><body>' +
+var form = '<!DOCTYPE HTML><html>' +
+  "<body>" +
+  "<head>" +
+  "<style> h1 {color: green;} </style>" +
   "<p>" +
   "<p>" +
   "<h1>This is a sample App to send an image to the Vision API and return a response</h1>" +
   "<form method='post' action='/upload' enctype='multipart/form-data'>" +
   "<input type='file' name='image'/>" +
-  "<input type='Cloud Vision it!' /></form>" +
+  "<input type='submit' /></form>" +
   "<p>" +
   "<p>" +
   "<h1>This was rendered by the container of hostname: </h1>" +
   "<p>" +
   "<h3>" + hostname + "</h3>" + 
-  '</body></html>';
+  '</head></body></html>';
 
 app.get('/', function(req, res) {
   res.writeHead(200, {

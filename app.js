@@ -41,7 +41,9 @@ var form = '<!DOCTYPE HTML><html><body>' +
   "<form method='post' action='/upload' enctype='multipart/form-data'>" +
   "<input type='file' name='image'/>" +
   "<input type='submit' /></form>" +
-  "<h1>This was rendered by the container of hostname:" + hostname + "</h1>" + 
+  "<h1>This was rendered by the container of hostname: </h1>" +
+  "<p>" +
+  "<h2>" + hostname "</h2>" + 
   '</body></html>';
 
 app.get('/', function(req, res) {
@@ -84,7 +86,7 @@ app.post('/upload', upload.single('image'), function(req, res, next) {
 });
 
 app.listen(8080);
-console.log('Server Started');
+console.log('Server Started on port 8080');
 
 // Turn image into Base64 so we can display it easily
 

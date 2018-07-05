@@ -23,6 +23,7 @@ var mime = require('mime');
 var multer = require('multer');
 var upload = multer({dest: 'uploads/'});
 var os = require('os');
+var base64 = require('node-base64-image');
 
 // Set up auth
 var vision = require('@google-cloud/vision');
@@ -78,9 +79,10 @@ app.post('/upload', upload.single('image'), function(req, res, next) {
         'Content-Type': 'text/html'
       });
       res.write('<!DOCTYPE HTML><html><body>');
+      var src = base64.encode(req.file.path);
 
       // Base64 the image so we can display it on the page
-      res.write('<img width=200 src="' + base64Image(req.file.path) + '"><br>');
+      res.write('<img width=200 src="' + src + '"><br>');
 
       // Write out the JSON output of the Vision API
       res.write(JSON.stringify(detections, null, 4));
@@ -103,7 +105,3 @@ console.log('Server Started on port 8080');
 //   return util.format('data:%s;base64,%s', mime.lookup(src), data);
 // }
 
-funtion base64Image(input) {
-    var data = fs.readFileSync(input);
-    return new Buffer(bitmap).toString('base64');
-}

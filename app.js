@@ -90,17 +90,26 @@ app.post('/upload', upload.single('image'), function(req, res, next) {
       res.writeHead(200, {
         'Content-Type': 'text/html'
       });
-      res.write('<!DOCTYPE HTML><html><body>');
-      // Base64 the image so we can display it on the page
       res.write('<img width=300 src="' + base64Image(req.file.path) + '"><br>');
+
+      var output = '<html><head></head><body><h1>API Output</h1><ul><table border=1><tr>';
+      for (var index in detections) {
+        output += '<td>' + detections[index].webDetection + '</td>';
+      }
+      output += '</tr>';
+      output += '</ul></body></html>';
+      //res.write('<!DOCTYPE HTML><html><body>');
+      // Base64 the image so we can display it on the page
+      
       // Write out the JSON output of the Vision API
-      res.write(JSON.stringify(detections.webDetection.webEntities, null, 10));
-      res.write('<p>');
+      res.end(output);
+    //   res.write(JSON.stringify(detections.webDetection.webEntities, null, 10));
+    //   res.write('<p>');
       console.log(detections);
       // Delete file (optional)
       fs.unlinkSync(req.file.path);
 
-      res.end('</body></html>');
+    //   res.end('</body></html>');
     }
   });
 });

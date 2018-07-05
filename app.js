@@ -25,7 +25,7 @@ var upload = multer({dest: 'uploads/'});
 var os = require('os');
 
 // Set up auth
-var gcloud = require('gcloud')({
+var gcloud = require('@google-cloud/vision')({
   keyFilename: 'key.json',
   projectId: 'gcpdemoproject'
 });
@@ -43,7 +43,7 @@ var form = '<!DOCTYPE HTML><html><body>' +
   "<input type='submit' /></form>" +
   "<h1>This was rendered by the container of hostname: </h1>" +
   "<p>" +
-  "<h2>" + hostname "</h2>" + 
+  "<h2>" + hostname + "</h2>" + 
   '</body></html>';
 
 app.get('/', function(req, res) {

@@ -9,7 +9,7 @@
   "author": "Thirumalai Aiyalu, cloned from Sandeep Dinesh",
   "dependencies": {
     "express": "latest",
-    "gcloud": "latest",
+    "@google-cloud/vision": "latest",
     "mime": "latest",
     "multer": "latest"
   },

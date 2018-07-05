@@ -44,12 +44,17 @@ var app = express();
 
 // Simple upload form
 var form = '<!DOCTYPE HTML><html><body>' +
+  "<p>" +
+  "<p>" +
+  "<h1>This is a sample App to send an image to the Vision API and return a response</h1>" +
   "<form method='post' action='/upload' enctype='multipart/form-data'>" +
   "<input type='file' name='image'/>" +
-  "<input type='submit' /></form>" +
+  "<input type='Cloud Vision it!' /></form>" +
+  "<p>" +
+  "<p>" +
   "<h1>This was rendered by the container of hostname: </h1>" +
   "<p>" +
-  "<h2>" + hostname + "</h2>" + 
+  "<h3>" + hostname + "</h3>" + 
   '</body></html>';
 
 app.get('/', function(req, res) {
@@ -84,11 +89,9 @@ app.post('/upload', upload.single('image'), function(req, res, next) {
       });
       res.write('<!DOCTYPE HTML><html><body>');
       // Base64 the image so we can display it on the page
-      res.write('<img width=200 src="' + base64Image(req.file.path) + '"><br>');
-      var thiru = $detections.webDetection.webEntities.description;
-
+      res.write('<img width=300 src="' + base64Image(req.file.path) + '"><br>');
       // Write out the JSON output of the Vision API
-      res.write(JSON.stringify(thiru, null, 10));
+      res.write(JSON.stringify(detections.webDetection.webEntities, null, 10));
       res.write('<p>');
       console.log(detections);
       // Delete file (optional)

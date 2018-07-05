@@ -93,10 +93,23 @@ app.post('/upload', upload.single('image'), function(req, res, next) {
       res.write('<img width=300 src="' + base64Image(req.file.path) + '"><br>');
 
       var output = '<html><head></head><body><h1>API Output</h1><ul><table border=1><tr>';
-      for (var index in detections) {
-        output += '<td>' + JSON.stringify(detections[index].webDetection) + '</td>';
+      output += '<th>EntityID</th>';
+      for (var index in detections.webDetection.webEntities) {
+        output += '<td>' + JSON.stringify(detections.webDetection.webEntities[index].entityId) + '</td>';
       }
       output += '</tr>';
+      output += '<tr>';
+      output += '<th>Score</th>';
+      for (var index in detections.webDetection.webEntities) {
+        output += '<td>' + JSON.stringify(detections.webDetection.webEntities[index].score) + '</td>';
+      }
+      output += '</tr>';
+      output += '<tr>';
+      output += '<th>Description</th>';
+      for (var index in detections.webDetection.webEntities) {
+        output += '<td>' + JSON.stringify(detections.webDetection.webEntities[index].description) + '</td>';
+      }
+      output += '</td>';
       output += '</ul></body></html>';
       //res.write('<!DOCTYPE HTML><html><body>');
       // Base64 the image so we can display it on the page

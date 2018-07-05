@@ -94,7 +94,7 @@ app.post('/upload', upload.single('image'), function(req, res, next) {
 
       var output = '<html><head></head><body><h1>API Output</h1><ul><table border=1><tr>';
       for (var index in detections) {
-        output += '<td>' + detections[index].webDetection + '</td>';
+        output += '<td>' + JSON.stringify(detections[index].webDetection) + '</td>';
       }
       output += '</tr>';
       output += '</ul></body></html>';

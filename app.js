@@ -85,9 +85,10 @@ app.post('/upload', upload.single('image'), function(req, res, next) {
       res.write('<!DOCTYPE HTML><html><body>');
       // Base64 the image so we can display it on the page
       res.write('<img width=200 src="' + base64Image(req.file.path) + '"><br>');
+      var thiru = $detections.webDetection.webEntities.description;
 
       // Write out the JSON output of the Vision API
-      res.write(JSON.stringify(detections.webDetection.webEntities.description, null, 10));
+      res.write(JSON.stringify(thiru, null, 10));
       res.write('<p>');
       console.log(detections);
       // Delete file (optional)

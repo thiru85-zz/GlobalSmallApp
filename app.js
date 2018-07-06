@@ -50,11 +50,6 @@ var opts = {
     }
 };
 
-request.get(opts, function(err, response, body){
-
-    var meta_data=body; //output to console the VM/Hostname
-
-})
 
 // Simple upload form
 var form = '<!DOCTYPE HTML><html>' +
@@ -76,7 +71,8 @@ var form = '<!DOCTYPE HTML><html>' +
   '</head></body></html>';
 
 app.get('/', function(req, res) {
-  res.writeHead(200, {
+  var meta_data;
+    res.writeHead(200, {
     'Content-Type': 'text/html'
   });
   res.write(meta_data, request.get(opts, function(err, response, body){
@@ -86,11 +82,6 @@ app.get('/', function(req, res) {
 }));
   res.end(form);
 });
-
-var opts = {
-
-}
-
 
 // Get the uploaded image
 // Image is uploaded to req.file.path

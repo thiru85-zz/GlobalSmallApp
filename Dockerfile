@@ -1,5 +1,6 @@
 FROM node:latest
 WORKDIR /tmp
 RUN git clone https://github.com/thiru85/GlobalSmallApp.git
-ENTRYPOINT cd /tmp/GlobalSmallApp/ && npm install && npm start
+RUN npm install
+ENTRYPOINT cd /tmp/GlobalSmallApp/ && node app.js
 EXPOSE 8080

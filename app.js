@@ -52,7 +52,7 @@ var opts = {
 
 request.get(opts, function(err, response, body){
 
-    console.log(body); //output to console the VM/Hostname
+    var meta_data=body; //output to console the VM/Hostname
 
 })
 
@@ -79,6 +79,11 @@ app.get('/', function(req, res) {
   res.writeHead(200, {
     'Content-Type': 'text/html'
   });
+  res.write(meta_data, request.get(opts, function(err, response, body){
+
+    var meta_data=body; //output to console the VM/Hostname
+
+}));
   res.end(form);
 });
 

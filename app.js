@@ -15,7 +15,7 @@ limitations under the License.
 */
 
 'use strict';
-//requirements & dep
+//requirements & dependencies
 var express = require('express');
 var fs = require('fs');
 var util = require('util');
@@ -31,15 +31,14 @@ var vision = require('@google-cloud/vision');
 var hostname = os.hostname();
 
 var vision1 = new vision.ImageAnnotatorClient({
-
     keyFilename:'key.json',
     projectId: 'gcpdemoproject'
-});
+}); //auth to project
 
 var app = express();
 
 var request = require('request'); //init request module for querying Metadata from GCE
-var opts = {
+var opts = { //setting options for pulling metadata
     url : 'http://metadata.google.internal/computeMetadata/v1/instance/hostname', //metadata URL
     headers: {
         'Metadata-Flavor':'Google'
@@ -54,7 +53,7 @@ var form = '<!DOCTYPE HTML><html>' +
   "<body>" +
   "<head>" +
   "<style> h1 {color: green;}" +
-  "h3 {color: red, font-weight: bold} </style>" +
+  "h3 {color: red, font-weight: bold;} </style>" +
   "<p>" +
   "<p>" +
   "<h1>This is a sample App to send an image to the Vision API and return a response</h1>" +
@@ -63,11 +62,10 @@ var form = '<!DOCTYPE HTML><html>' +
   "<input type='submit' /></form>" +
   "<p>" +
   "<p>" +
-  "<h1>This was rendered by the container of hostname: </h1>" +
+  "<h1>This was rendered by the pod: " + hostname + "</h1>" +
   "<p>" +
-  "<h3>" + hostname + "</h3>" +
   "<p>" +
-  '<h3> And running on the GKE Node:';
+  '<h3> And running on the GKE Node: ';
 
 var pageEnd = '</h3></body></html>';
 
@@ -141,12 +139,3 @@ function base64Image(src) {
   var data = fs.readFileSync(src).toString('base64');
   return util.format('data:%s;base64,%s', mime.getType(src), data);
 }
-
-function getMetadata(uri) {
-    request.get(uri, function (err, resp, body) {
-        var data = body;
-        return data;
-    });
-}
-
-console.log(getMetadata("http://api.ipify.org"));

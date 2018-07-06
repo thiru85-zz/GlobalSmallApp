@@ -52,7 +52,7 @@ var opts = { //setting options for pulling metadata
 var form = '<!DOCTYPE HTML><html>' +
   "<body>" +
   "<head>" +
-  "<style> <style> h1 {border-style: solid; border-color: coral;} h3 {border-style: solid;border-color: blue;} </style></head>" +
+  "<style> h1 {color: green;} h3 {color: blue;} </style></head>" +
   "<p>" +
   "<p>" +
   "<h1>This is a sample App to send an image to the Vision API and return a response</h1>" +

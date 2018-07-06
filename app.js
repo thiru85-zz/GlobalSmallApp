@@ -51,6 +51,8 @@ var opts = {
 };
 
 
+ 
+
 // Simple upload form
 var form = '<!DOCTYPE HTML><html>' +
   "<body>" +
@@ -67,20 +69,18 @@ var form = '<!DOCTYPE HTML><html>' +
   "<h1>This was rendered by the container of hostname: </h1>" +
   "<p>" +
   "<h3>" + hostname + "</h3>" +
-  "<h3>And running on the node: " + //body?
+  "<h3>And running on the node: " + 
   '</head></body></html>';
 
 app.get('/', function(req, res) {
-  var meta_data;
-    res.writeHead(200, {
+  res.writeHead(200, {
     'Content-Type': 'text/html'
   });
-  res.write(meta_data, request.get(opts, function(err, response, body){
-
-    var meta_data=body; //output to console the VM/Hostname
-
-}));
-  res.end(form);
+  request(opts, function(err, resp, body){
+      res.write(body);
+      res.end(form);
+  });
+  //res.end(form);
 });
 
 // Get the uploaded image

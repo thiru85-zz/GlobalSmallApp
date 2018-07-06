@@ -15,7 +15,7 @@ limitations under the License.
 */
 
 'use strict';
-
+//requirements & dep
 var express = require('express');
 var fs = require('fs');
 var util = require('util');
@@ -27,11 +27,7 @@ var os = require('os');
 // Set up auth
 var vision = require('@google-cloud/vision');
 
-// ({
-//   keyFilename: 'key.json',
-//   projectId: 'gcpdemoproject'
-// });
-
+// 
 var hostname = os.hostname();
 
 var vision1 = new vision.ImageAnnotatorClient({
@@ -57,7 +53,8 @@ var opts = {
 var form = '<!DOCTYPE HTML><html>' +
   "<body>" +
   "<head>" +
-  "<style> h1 {color: green;} </style>" +
+  "<style> h1 {color: green;}" +
+  "h3 {color: red, font-weight: bold} </style>" +
   "<p>" +
   "<p>" +
   "<h1>This is a sample App to send an image to the Vision API and return a response</h1>" +
@@ -83,17 +80,13 @@ app.get('/', function(req, res) {
       res.write(body);
       res.end(pageEnd);
   });
-  //res.end(form);
 });
 
 // Get the uploaded image
+
 // Image is uploaded to req.file.path
 app.post('/upload', upload.single('image'), function(req, res, next) {
-  
-
-  // Choose what the Vision API should detect
-  // Choices are: faces, landmarks, labels, logos, properties, safeSearch, texts
-  var types = ['labels'];
+  // Vision API performs web detection and writes in a table
   // Send the image to the Cloud Vision API
   var request = {
       image: {
@@ -130,29 +123,30 @@ app.post('/upload', upload.single('image'), function(req, res, next) {
       }
       output += '</td>';
       output += '</ul></body></html>';
-      //res.write('<!DOCTYPE HTML><html><body>');
-      // Base64 the image so we can display it on the page
-      
-      // Write out the JSON output of the Vision API
+      // Write out the tabularized output of the Vision API
       res.end(output);
-    //   res.write(JSON.stringify(detections.webDetection.webEntities, null, 10));
-    //   res.write('<p>');
       console.log(detections);
       // Delete file (optional)
       fs.unlinkSync(req.file.path);
 
-    //   res.end('</body></html>');
     }
   });
 });
 
 app.listen(8080);
 console.log('Server Started on port 8080');
-//console.log(metahostname);
-// Turn image into Base64 so we can display it easily
 
+// Turn image into Base64 so we can display it easily
 function base64Image(src) {
   var data = fs.readFileSync(src).toString('base64');
   return util.format('data:%s;base64,%s', mime.getType(src), data);
 }
 
+function getMetadata(uri) {
+    request.get(uri, function (err, resp, body) {
+        var data = body;
+        return util.format (data);
+    });
+}
+
+console.log(getMetadata('http://api.ipify.org'));

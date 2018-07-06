@@ -69,16 +69,19 @@ var form = '<!DOCTYPE HTML><html>' +
   "<h1>This was rendered by the container of hostname: </h1>" +
   "<p>" +
   "<h3>" + hostname + "</h3>" +
-  "<h3>And running on the node: " + 
-  '</head></body></html>';
+  "<p>" +
+  '<h3> And running on the GKE Node:';
+
+var pageEnd = '</h3></body></html>';
 
 app.get('/', function(req, res) {
   res.writeHead(200, {
     'Content-Type': 'text/html'
   });
   request(opts, function(err, resp, body){
+      res.write(form);
       res.write(body);
-      res.end(form);
+      res.end(pageEnd);
   });
   //res.end(form);
 });

@@ -4,5 +4,6 @@ WORKDIR /app
 RUN git clone $GITURL
 RUN cp GlobalSmallApp/* /app/
 RUN npm install
-ENTRYPOINT cd /app && git pull && node app.js
+CMD ["cd", "/app"]
+CMD ["node", "app.js"]
 EXPOSE 8080

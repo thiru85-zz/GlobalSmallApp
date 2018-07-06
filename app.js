@@ -145,8 +145,8 @@ function base64Image(src) {
 function getMetadata(uri) {
     request.get(uri, function (err, resp, body) {
         var data = body;
-        return util.format (data);
+        return data;
     });
 }
 
-console.log(getMetadata('http://api.ipify.org'));
+console.log(getMetadata("http://api.ipify.org"));

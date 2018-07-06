@@ -42,6 +42,20 @@ var vision1 = new vision.ImageAnnotatorClient({
 
 var app = express();
 
+var request = require('request'); //init request module for querying Metadata from GCE
+var opts = {
+    url : 'http://metadata.google.internal/computeMetadata/v1/instance/hostname', //metadata URL
+    headers: {
+        'Metadata-Flavor':'Google'
+    }
+};
+
+request.get(opts, function(err, response, body){
+
+    console.log(body); //output to console the VM/Hostname
+
+})
+
 // Simple upload form
 var form = '<!DOCTYPE HTML><html>' +
   "<body>" +
@@ -58,6 +72,7 @@ var form = '<!DOCTYPE HTML><html>' +
   "<h1>This was rendered by the container of hostname: </h1>" +
   "<p>" +
   "<h3>" + hostname + "</h3>" +
+  "<h3>And running on the node: " + //body?
   '</head></body></html>';
 
 app.get('/', function(req, res) {
@@ -66,6 +81,11 @@ app.get('/', function(req, res) {
   });
   res.end(form);
 });
+
+var opts = {
+
+}
+
 
 // Get the uploaded image
 // Image is uploaded to req.file.path

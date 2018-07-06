@@ -57,7 +57,7 @@ var form = '<!DOCTYPE HTML><html>' +
   "<p>" +
   "<h1>This was rendered by the container of hostname: </h1>" +
   "<p>" +
-  "<h3>" + hostname + "</h3>" + 
+  "<h3>" + hostname + "</h3>" +
   '</head></body></html>';
 
 app.get('/', function(req, res) {
@@ -83,7 +83,7 @@ app.post('/upload', upload.single('image'), function(req, res, next) {
           }
         }
   }
-  vision1.webDetection(request, function(err, detections) {
+  vision1.webDetection(request, function(err, detections) { //messy to convert the response into table format
     if (err) {
       res.end('Cloud Vision Error');
     } else {
@@ -129,7 +129,7 @@ app.post('/upload', upload.single('image'), function(req, res, next) {
 
 app.listen(8080);
 console.log('Server Started on port 8080');
-
+//console.log(metahostname);
 // Turn image into Base64 so we can display it easily
 
 function base64Image(src) {

@@ -45,9 +45,6 @@ var opts = { //setting options for pulling metadata
     }
 };
 
-
- 
-
 // Simple upload form
 var form = '<!DOCTYPE HTML><html>' +
   "<body>" +

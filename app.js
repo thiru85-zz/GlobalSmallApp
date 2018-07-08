@@ -52,13 +52,14 @@ var form = '<!DOCTYPE HTML><html>' +
   "<style> h1 {color: green;} h3 {color: blue;} </style></head>" +
   "<p>" +
   "<p>" +
+  "<h1>Hi IOxKL!</h1>" +
   "<h1>This is a sample App to send an image to the Vision API and return a response</h1>" +
   "<form method='post' action='/upload' enctype='multipart/form-data'>" +
   "<input type='file' name='image'/>" +
-  "<input type='submit' /></form>" +
-  "<form method='GET' action='/hellogo' enctype='multipart/form-data'>" +
-  "<input type='button' name='HelloGo?'/>" +
-  "<input type='submit' /></form>"
+  "<input type='submit'/></form>" +
+  "<p>" +
+  "<form enctype='multipart/form-data'>" +
+  "<input type='button' value='HelloGo?' action='/gohello'/></form>" +
   "<p>" +
   "<p>" +
   "<h1>This was rendered by the pod: " + hostname + "</h1>" +

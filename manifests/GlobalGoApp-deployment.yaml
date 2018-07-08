@@ -1,0 +1,22 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: myglobalapp
+  labels:
+    app: myglobalapp
+spec:
+  template:
+    metadata:
+      labels:
+        app: myglobalapp
+        tier: web
+    spec:
+      containers:
+      - name: globalgoapp
+        image: gcr.io/gcpdemoproject/globalgoapp:master
+        ports:
+        - containerPort: 8081
+      - name: globalnodeapp
+        image: gcr.io/gcpdemoproject/globalsmallapp:master
+        ports:
+        - containerPort: 8080

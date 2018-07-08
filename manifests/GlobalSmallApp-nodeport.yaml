@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: globalnodeport
+  labels:
+    app: globalnodeport
+spec:
+  type: NodePort
+  selector:
+    app: globalgoapp
+    tier: web
+  ports:
+  - port: 81
+    targetPort: 8081
+  type: NodePort
+  selector:
+    app: globalsmallapp
+    tier: web
+  ports:
+  - port: 80
+    targetPort: 8080

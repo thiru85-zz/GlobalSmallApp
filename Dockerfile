@@ -4,7 +4,7 @@ RUN mkdir -p /app
 RUN git clone $GITURL
 RUN pwd
 RUN ls -al
-COPY GlobalSmallApp/* /app/
+COPY /GlobalSmallApp/* /app/
 WORKDIR /app
 ADD package*.json /app/
 RUN npm install

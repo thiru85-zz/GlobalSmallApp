@@ -1,10 +1,11 @@
 FROM node:latest
 ENV GITURL "https://github.com/thiru85/GlobalSmallApp.git"
 RUN mkdir -p /app
-RUN git clone $GITURL
+RUN git clone $GITURL /app
 RUN pwd
 RUN ls -al
-COPY /GlobalSmallApp/* /app/
+RUN ls /app
+#COPY /GlobalSmallApp/* /app/
 WORKDIR /app
 ADD package*.json /app/
 RUN npm install

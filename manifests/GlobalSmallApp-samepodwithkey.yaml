@@ -1,0 +1,30 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: globalapp
+  labels:
+    app: globalapp
+spec:
+  replicas: 4
+  template:
+    metadata:
+      labels:
+        app: myglobalapp
+    spec:
+      containers:
+      - name: globalgoapp
+        image: gcr.io/gcpdemoproject/globalgoapp:master
+        ports:
+        - containerPort: 8081
+      - name: globalnodeapp
+        image: gcr.io/gcpdemoproject/globalsmallapp:master
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: keymount
+          mountPath: "/tmp"
+          readOnly: true
+      volumes:
+      - name: keymount
+        secret:
+         secretName: thekey

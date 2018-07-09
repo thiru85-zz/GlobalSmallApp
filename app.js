@@ -31,7 +31,7 @@ var vision = require('@google-cloud/vision');
 var hostname = os.hostname();
 
 var vision1 = new vision.ImageAnnotatorClient({
-    keyFilename:'key.json', //tadaaaaa this is where the magic happens - we will be using Kubernetes Secrets for this
+    keyFilename:'/tmp/key.json', //tadaaaaa this is where the magic happens - we will be using Kubernetes Secrets for this
     projectId: 'gcpdemoproject'
 }); //auth to project
 
@@ -58,8 +58,8 @@ var form = '<!DOCTYPE HTML><html>' +
   "<input type='file' name='image'/>" +
   "<input type='submit'/></form>" +
   "<p>" +
-  "<form enctype='multipart/form-data'>" +
-  "<input type='button' value='HelloGo?' action='/gohello'/></form>" +
+  "<form action='/gohello'>" +
+  "<input type='button' value='HelloGo?'/></form>" +
   "<p>" +
   "<p>" +
   "<h1>This was rendered by the pod: " + hostname + "</h1>" +

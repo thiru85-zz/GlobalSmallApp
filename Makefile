@@ -87,7 +87,7 @@ create-secretdeployment:
 
 create-connecttocluster:
 	gcloud config unset container/use_client_certificate
-	gcloud container clusters get-credentials asia-cluster --zone asia-southeast1 --project gcpdemoproject
+	gcloud container clusters get-credentials asia-cluster --zone asia-southeast1-a --project gcpdemoproject
 	gcloud container clusters get-credentials eu-cluster --zone europe-west2-a --project gcpdemoproject
 	gcloud container clusters get-credentials us-cluster --zone us-central1-a --project gcpdemoproject
 	kubectl create clusterrolebinding asia-admin-binding --clusterrole=cluster-admin --username=nodedemo1@gcpgemoproject.iam.gserviceaccount.com

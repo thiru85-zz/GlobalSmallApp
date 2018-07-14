@@ -6,6 +6,9 @@ metadata:
     app: globalwebfe
 spec:
   replicas: 3
+  selector:
+    matchLabels:
+      app: globalwebfe
   template:
     metadata:
       labels:

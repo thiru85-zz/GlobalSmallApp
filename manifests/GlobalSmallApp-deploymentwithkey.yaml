@@ -1,4 +1,4 @@
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: globalwebfe
@@ -6,20 +6,24 @@ metadata:
     app: globalwebfe
 spec:
   replicas: 3
+  selector:
+    matchLabels:
+      app: globalwebfe  
   template:
     metadata:
       labels:
         app: globalwebfe
-  containers:
-    - name: globalnodecontainer
-      image: gcr.io/gcpdemoproject/globalsmallapp:master
-      ports:
-       - containerPort: 8080
-      volumeMounts:
-       - name: keymount
-         mountPath: "/tmp"
-         readOnly: true
+  spec:
+      containers:
+      - name: globalnodecontainer
+        image: gcr.io/gcpdemoproject/globalsmallapp:master
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: keymount
+          mountPath: "/tmp"
+          readOnly: true
       volumes:
-       - name: keymount
+      - name: keymount
         secret:
          secretName: thekey

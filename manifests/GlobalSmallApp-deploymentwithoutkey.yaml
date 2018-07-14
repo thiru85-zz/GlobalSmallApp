@@ -1,4 +1,4 @@
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: globalwebfe 
@@ -10,8 +10,9 @@ spec:
     metadata:
       labels:
         app: globalwebfe 
-  containers:
-    - name: globalnodecontainer
-      image: gcr.io/gcpdemoproject/globalsmallapp:master
-      ports:
-       - containerPort: 8080
+  spec:
+      containers:
+      - name: globalnodecontainer
+        image: gcr.io/gcpdemoproject/globalsmallapp:master
+        ports:
+        - containerPort: 8080

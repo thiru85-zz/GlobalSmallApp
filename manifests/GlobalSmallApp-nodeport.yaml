@@ -9,6 +9,6 @@ spec:
   ports:
   - port: 80
     targetPort: 8080
-    nodeport: 30049
+    NodePort: 30049
     name: http80
     

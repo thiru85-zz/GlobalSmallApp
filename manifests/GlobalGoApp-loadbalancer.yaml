@@ -7,4 +7,9 @@ metadata:
 spec:
   selector:
     app: globalgoapp-nodeport
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8081
+    nodeport: 30045
   type: LoadBalancer

@@ -10,9 +10,8 @@ spec:
     metadata:
       labels:
         app: globalwebfe 
-  spec:
-      containers:
-      - name: globalnodecontainer
-        image: gcr.io/gcpdemoproject/globalsmallapp:master
-        ports:
-        - containerPort: 8080
+  containers:
+    - name: globalnodecontainer
+      image: gcr.io/gcpdemoproject/globalsmallapp:master
+      ports:
+       - containerPort: 8080

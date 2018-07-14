@@ -59,7 +59,7 @@ create-federatedcluster:
 	kubectl --context=$(FEDNAME) get all
 
 create-rolebinding:
-	kubectl create clusterrolebinding asia-admin-binding --clusterrole=cluster-admin --user=nodedemo1@gcpgemoproject.iam.gserviceaccount.com
+	kubectl create clusterrolebinding asia-admin-binding --clusterrole=cluster-admin --username=nodedemo1@gcpgemoproject.iam.gserviceaccount.com
 
 create-globalip:
 	gcloud compute addresses create globalapp-ip --global

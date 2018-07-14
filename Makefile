@@ -26,8 +26,6 @@ delete-cluster1:
 #	kubectl config delete-contexts gke_"$(PROJECT_ID)"_"$(ZONE)"_"$(CLUSTER_NAME)"
 
 create-allclusters:
-	gcloud config set container/use_client_certificate True
-	export CLOUDSDK_CONTAINER_USE_CLIENT_CERTIFICATE=True
 	gcloud container --project "$(PROJECT_ID)" clusters create "$(ASIACLUSTER_NAME)" --zone "$(ASIAZONE)" --machine-type "n1-standard-1" --image-type "COS" --disk-size "100" --scopes "https://www.googleapis.com/auth/compute","https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring","https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly","https://www.googleapis.com/auth/trace.append" --num-nodes "3" --network "default" --enable-cloud-logging --enable-cloud-monitoring
 	gcloud container clusters get-credentials "$(ASIACLUSTER_NAME)" --zone "$(ASIAZONE)" --project gcpdemoproject
 	gcloud container --project "$(PROJECT_ID)" clusters create "$(EUCLUSTER_NAME)" --zone "$(EUZONE)" --machine-type "n1-standard-1" --image-type "COS" --disk-size "100" --scopes "https://www.googleapis.com/auth/compute","https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring","https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly","https://www.googleapis.com/auth/trace.append" --num-nodes "3" --network "default" --enable-cloud-logging --enable-cloud-monitoring
@@ -37,13 +35,14 @@ create-allclusters:
 	
 
 prepare-contexts:
-	kubectl config set-context "$(ASIACLUSTER_NAME)" --cluster gke_"$(PROJECT_ID)"_"$(ASIAZONE)"_"$(ASIACLUSTER_NAME)" --user gke_"$(PROJECT_ID)"_"$(ASIAZONE)"_"$(ASIACLUSTER_NAME)"
-	kubectl config set-context "$(EUCLUSTER_NAME)" --cluster gke_"$(PROJECT_ID)"_"$(EUZONE)"_"$(EUCLUSTER_NAME)" --user gke_"$(PROJECT_ID)"_"$(EUZONE)"_"$(EUCLUSTER_NAME)"
-	kubectl config set-context "$(USCLUSTER_NAME)" --cluster gke_"$(PROJECT_ID)"_"$(USZONE)"_"$(USCLUSTER_NAME)" --user gke_"$(PROJECT_ID)"_"$(USZONE)"_"$(USCLUSTER_NAME)"
-	kubectl config delete-context gke_"$(PROJECT_ID)"_"$(ASIAZONE)"_"$(ASIACLUSTER_NAME)"
-	kubectl config delete-context gke_"$(PROJECT_ID)"_"$(EUZONE)"_"$(EUCLUSTER_NAME)"
-	kubectl config delete-context gke_"$(PROJECT_ID)"_"$(USZONE)"_"$(USCLUSTER_NAME)"
-	kubectl config use-context "$(ASIACLUSTER_NAME)"
+	kubectl config set-context $(ASIACLUSTER_NAME) --cluster gke_$(PROJECT_ID)_$(ASIAZONE)_$(ASIACLUSTER_NAME) --user gke_$(PROJECT_ID)_$(ASIAZONE)_$(ASIACLUSTER_NAME)
+	kubectl config set-context $(EUCLUSTER_NAME) --cluster gke_$(PROJECT_ID)_$(EUZONE)_$(EUCLUSTER_NAME) --user gke_$(PROJECT_ID)_$(EUZONE)_$(EUCLUSTER_NAME)
+	kubectl config set-context $(USCLUSTER_NAME) --cluster gke_$(PROJECT_ID)_$(USZONE)_$(USCLUSTER_NAME) --user gke_$(PROJECT_ID)_$(USZONE)_$(USCLUSTER_NAME)
+	kubectl config use-context $(ASIACLUSTER_NAME)
+	kubectl config delete-context gke_$(PROJECT_ID)_$(ASIAZONE)_$(ASIACLUSTER_NAME)
+	kubectl config delete-context gke_$(PROJECT_ID)_$(EUZONE)_$(EUCLUSTER_NAME)
+	kubectl config delete-context gke_$(PROJECT_ID)_$(USZONE)_$(USCLUSTER_NAME)
+	
 
 get-kubefed:
 	gsutil cp gs://kubernetes-federation-release/release/v1.9.0-beta.0/federation-client-linux-amd64.tar.gz .
@@ -51,12 +50,13 @@ get-kubefed:
 	sudo cp federation/client/bin/kubefed /usr/local/bin
 
 create-federatedcluster:
-	kubefed init "$(FEDNAME)" --host-cluster-context="$(ASIACLUSTER_NAME)" --dns-zone-name="gcpdemo.xyz" --dns-provider="google-clouddns" --image="gcr.io/google_containers/hyperkube-amd64:v1.10.0-alpha.0"
-	kubefed --context "$(FEDNAME)" join "$(ASIACLUSTER_NAME)" --cluster-context="$(ASIACLUSTER_NAME)" --host-cluster-context="$(ASIACLUSTER_NAME)"
-	kubefed --context "$(FEDNAME)" join "$(EUCLUSTER_NAME)" --cluster-context="$(EUCLUSTER_NAME)" --host-cluster-context="$(ASIACLUSTER_NAME)"
-	kubefed --context "$(FEDNAME)" join "$(USCLUSTER_NAME)" --cluster-context="$(USCLUSTER_NAME)" --host-cluster-context="$(ASIACLUSTER_NAME)"
-	kubectl --context="$(FEDNAME)" create ns default
-	kubectl --context="$(FEDNAME)" get all
+	kubectl create clusterrolebinding asia-admin-binding --clusterrole=cluster-admin --user=nodedemo1@gcpgemoproject.iam.gserviceaccount.com
+	kubefed init $(FEDNAME) --host-cluster-context=$(ASIACLUSTER_NAME) --dns-zone-name="gcpdemo.xyz" --dns-provider="google-clouddns" --image="gcr.io/gcpdemoproject/kubefedcontainer"
+	kubefed --context $(FEDNAME) join $(ASIACLUSTER_NAME) --cluster-context=$(ASIACLUSTER_NAME) --host-cluster-context=$(ASIACLUSTER_NAME)
+	kubefed --context $(FEDNAME) join $(EUCLUSTER_NAME) --cluster-context=$(EUCLUSTER_NAME) --host-cluster-context=$(ASIACLUSTER_NAME)
+	kubefed --context $(FEDNAME) join $(USCLUSTER_NAME) --cluster-context=$(USCLUSTER_NAME) --host-cluster-context=$(ASIACLUSTER_NAME)
+	kubectl --context=$(FEDNAME) create ns default
+	kubectl --context=$(FEDNAME) get all
 
 create-rolebinding:
 	kubectl create clusterrolebinding asia-admin-binding --clusterrole=cluster-admin --user=nodedemo1@gcpgemoproject.iam.gserviceaccount.com
@@ -82,4 +82,5 @@ create-secret:
 	kubectl create secret generic thekey --from-file=/home/taiyalu/Code/thekey.json
 
 create-secretdeployment:
-	kubectl --context="$(FEDNAME)" replace -f manifests/GlobalSmallApp-deploymentwithkey.yaml
+	kubectl --context="$(FEDNAME)" delete -f manifests/GlobalSmallApp-deployment.yaml
+	kubectl --context="$(FEDNAME)" create -f manifests/GlobalSmallApp-deploymentwithkey.yaml

@@ -10,17 +10,16 @@ spec:
     metadata:
       labels:
         app: globalwebfe
-  spec:
-      containers:
-      - name: globalnodecontainer
-        image: gcr.io/gcpdemoproject/globalsmallapp:master
-        ports:
-        - containerPort: 8080
-        volumeMounts:
-        - name: keymount
-          mountPath: "/tmp"
-          readOnly: true
+  containers:
+    - name: globalnodecontainer
+      image: gcr.io/gcpdemoproject/globalsmallapp:master
+      ports:
+       - containerPort: 8080
+      volumeMounts:
+       - name: keymount
+         mountPath: "/tmp"
+         readOnly: true
       volumes:
-      - name: keymount
+       - name: keymount
         secret:
          secretName: thekey

@@ -50,17 +50,17 @@ get-kubefed:
 
 create-federatedcluster:
 	gcloud config set container/use_client_certificate True
+	kubectl create clusterrolebinding asia-admin-binding --clusterrole=cluster-admin --user=nodedemo1@gcpgemoproject.iam.gserviceaccount.com
 	kubefed init "$(FEDNAME)" --host-cluster-context="$(ASIACLUSTER_NAME)" --dns-zone-name="gcpdemo.xyz" --dns-provider="google-clouddns"
 	kubefed --context "$(FEDNAME)" join "$(ASIACLUSTER_NAME)" --cluster-context="$(ASIACLUSTER_NAME)" --host-cluster-context="$(ASIACLUSTER_NAME)"
 	kubefed --context "$(FEDNAME)" join "$(EUCLUSTER_NAME)" --cluster-context="$(EUCLUSTER_NAME)" --host-cluster-context="$(ASIACLUSTER_NAME)"
 	kubefed --context "$(FEDNAME)" join "$(USCLUSTER_NAME)" --cluster-context="$(USCLUSTER_NAME)" --host-cluster-context="$(ASIACLUSTER_NAME)"
 	kubectl --context="$(FEDNAME)" create ns default
 	kubectl --context="$(FEDNAME)" get all
-	kubectl create clusterrolebinding asia-admin-binding --clusterrole=cluster-admin --user=nodedemo1@gcpgemoproject.iam.gserviceaccount.com
 
 create-rolebinding:
 	kubectl create clusterrolebinding asia-admin-binding --clusterrole=cluster-admin --user=nodedemo1@gcpgemoproject.iam.gserviceaccount.com
-	
+
 create-globalip:
 	gcloud compute addresses create globalapp-ip --global
 

@@ -41,6 +41,7 @@ prepare-contexts:
 	kubectl config delete-context gke_"$(PROJECT_ID)"_"$(ASIAZONE)"_"$(ASIACLUSTER_NAME)"
 	kubectl config delete-context gke_"$(PROJECT_ID)"_"$(EUZONE)"_"$(EUCLUSTER_NAME)"
 	kubectl config delete-context gke_"$(PROJECT_ID)"_"$(USZONE)"_"$(USCLUSTER_NAME)"
+	kubectl config use-context "$(ASIACLUSTER_NAME)"
 
 get-kubefed:
 	gsutil cp gs://kubernetes-federation-release/release/v1.9.0-beta.0/federation-client-linux-amd64.tar.gz .
@@ -55,7 +56,11 @@ create-federatedcluster:
 	kubefed --context "$(FEDNAME)" join "$(USCLUSTER_NAME)" --cluster-context="$(USCLUSTER_NAME)" --host-cluster-context="$(ASIACLUSTER_NAME)"
 	kubectl --context="$(FEDNAME)" create ns default
 	kubectl --context="$(FEDNAME)" get all
+	kubectl create clusterrolebinding asia-admin-binding --clusterrole=cluster-admin --user=nodedemo1@gcpgemoproject.iam.gserviceaccount.com
 
+create-rolebinding:
+	kubectl create clusterrolebinding asia-admin-binding --clusterrole=cluster-admin --user=nodedemo1@gcpgemoproject.iam.gserviceaccount.com
+	
 create-globalip:
 	gcloud compute addresses create globalapp-ip --global
 

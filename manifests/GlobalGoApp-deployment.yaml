@@ -5,7 +5,7 @@ metadata:
   labels:
     app: globalgobackend
 spec:
-  replicas: 3
+  replicas: 6
   selector:
     matchLabels:
       app: globalgobackend

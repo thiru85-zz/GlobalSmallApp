@@ -91,3 +91,8 @@ create-connecttocluster:
 	gcloud container clusters get-credentials eu-cluster --zone europe-west2-a --project gcpdemoproject
 	gcloud container clusters get-credentials us-cluster --zone us-central1-a --project gcpdemoproject
 	kubectl create clusterrolebinding asia-admin-binding --clusterrole=cluster-admin --username=nodedemo1@gcpgemoproject.iam.gserviceaccount.com
+
+delete-contexts:
+	kubectl config delete-contexts gke_gcpdemoproject_asia-southeast1-a_asia-cluster
+	kubectl config delete-contexts gke_gcpdemoproject_europe-west2-a_eu-cluster
+	kubectl config delete-contexts gke_gcpdemoproject_us-central1-a_us-cluster

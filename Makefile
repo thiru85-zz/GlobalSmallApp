@@ -26,13 +26,15 @@ delete-cluster1:
 #	kubectl config delete-contexts gke_"$(PROJECT_ID)"_"$(ZONE)"_"$(CLUSTER_NAME)"
 
 create-allclusters:
+	gcloud config set container/use_client_certificate True
+	export CLOUDSDK_CONTAINER_USE_CLIENT_CERTIFICATE=True
 	gcloud container --project "$(PROJECT_ID)" clusters create "$(ASIACLUSTER_NAME)" --zone "$(ASIAZONE)" --machine-type "n1-standard-1" --image-type "COS" --disk-size "100" --scopes "https://www.googleapis.com/auth/compute","https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring","https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly","https://www.googleapis.com/auth/trace.append" --num-nodes "3" --network "default" --enable-cloud-logging --enable-cloud-monitoring
 	gcloud container clusters get-credentials "$(ASIACLUSTER_NAME)" --zone "$(ASIAZONE)" --project gcpdemoproject
 	gcloud container --project "$(PROJECT_ID)" clusters create "$(EUCLUSTER_NAME)" --zone "$(EUZONE)" --machine-type "n1-standard-1" --image-type "COS" --disk-size "100" --scopes "https://www.googleapis.com/auth/compute","https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring","https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly","https://www.googleapis.com/auth/trace.append" --num-nodes "3" --network "default" --enable-cloud-logging --enable-cloud-monitoring
 	gcloud container clusters get-credentials "$(EUCLUSTER_NAME)" --zone "$(EUZONE)" --project gcpdemoproject
 	gcloud container --project "$(PROJECT_ID)" clusters create "$(USCLUSTER_NAME)" --zone "$(USZONE)" --machine-type "n1-standard-1" --image-type "COS" --disk-size "100" --scopes "https://www.googleapis.com/auth/compute","https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring","https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly","https://www.googleapis.com/auth/trace.append" --num-nodes "3" --network "default" --enable-cloud-logging --enable-cloud-monitoring
 	gcloud container clusters get-credentials "$(USCLUSTER_NAME)" --zone "$(USZONE)" --project gcpdemoproject
-	gcloud config set container/use_client_certificate True
+	
 
 prepare-contexts:
 	kubectl config set-context "$(ASIACLUSTER_NAME)" --cluster gke_"$(PROJECT_ID)"_"$(ASIAZONE)"_"$(ASIACLUSTER_NAME)" --user gke_"$(PROJECT_ID)"_"$(ASIAZONE)"_"$(ASIACLUSTER_NAME)"
@@ -49,8 +51,6 @@ get-kubefed:
 	sudo cp federation/client/bin/kubefed /usr/local/bin
 
 create-federatedcluster:
-	gcloud config set container/use_client_certificate True
-	kubectl create clusterrolebinding asia-admin-binding --clusterrole=cluster-admin --user=nodedemo1@gcpdemoproject.iam.gserviceaccount.com --username=system:anonymous
 	kubefed init "$(FEDNAME)" --host-cluster-context="$(ASIACLUSTER_NAME)" --dns-zone-name="gcpdemo.xyz" --dns-provider="google-clouddns" --image="gcr.io/google_containers/hyperkube-amd64:v1.10.0-alpha.0"
 	kubefed --context "$(FEDNAME)" join "$(ASIACLUSTER_NAME)" --cluster-context="$(ASIACLUSTER_NAME)" --host-cluster-context="$(ASIACLUSTER_NAME)"
 	kubefed --context "$(FEDNAME)" join "$(EUCLUSTER_NAME)" --cluster-context="$(EUCLUSTER_NAME)" --host-cluster-context="$(ASIACLUSTER_NAME)"

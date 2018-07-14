@@ -23,15 +23,15 @@ create-loadbalancer1:
 
 delete-cluster1:
 	gcloud container clusters delete "$(CLUSTER_NAME)" --zone "$(ZONE)"
-	kubectl config delete-contexts gke_"$(PROJECT_ID)"_"$(ZONE)"_"$(CLUSTER_NAME)"
+#	kubectl config delete-contexts gke_"$(PROJECT_ID)"_"$(ZONE)"_"$(CLUSTER_NAME)"
 
 create-allclusters:
 	gcloud container --project "$(PROJECT_ID)" clusters create "$(ASIACLUSTER_NAME)" --zone "$(ASIAZONE)" --machine-type "n1-standard-1" --image-type "COS" --disk-size "100" --scopes "https://www.googleapis.com/auth/compute","https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring","https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly","https://www.googleapis.com/auth/trace.append" --num-nodes "3" --network "default" --enable-cloud-logging --enable-cloud-monitoring
-	gcloud container clusters get-credentials "$(ASIACLUSTER_NAME)" --zone "$(ZONE)" --project gcpdemoproject
+	gcloud container clusters get-credentials "$(ASIACLUSTER_NAME)" --zone "$(ASIAZONE)" --project gcpdemoproject
 	gcloud container --project "$(PROJECT_ID)" clusters create "$(EUCLUSTER_NAME)" --zone "$(EUZONE)" --machine-type "n1-standard-1" --image-type "COS" --disk-size "100" --scopes "https://www.googleapis.com/auth/compute","https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring","https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly","https://www.googleapis.com/auth/trace.append" --num-nodes "3" --network "default" --enable-cloud-logging --enable-cloud-monitoring
-	gcloud container clusters get-credentials "$(EUCLUSTER_NAME)" --zone "$(ZONE)" --project gcpdemoproject
+	gcloud container clusters get-credentials "$(EUCLUSTER_NAME)" --zone "$(EUZONE)" --project gcpdemoproject
 	gcloud container --project "$(PROJECT_ID)" clusters create "$(USCLUSTER_NAME)" --zone "$(USZONE)" --machine-type "n1-standard-1" --image-type "COS" --disk-size "100" --scopes "https://www.googleapis.com/auth/compute","https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring","https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly","https://www.googleapis.com/auth/trace.append" --num-nodes "3" --network "default" --enable-cloud-logging --enable-cloud-monitoring
-	gcloud container clusters get-credentials "$(USCLUSTER_NAME)" --zone "$(ZONE)" --project gcpdemoproject
+	gcloud container clusters get-credentials "$(USCLUSTER_NAME)" --zone "$(USZONE)" --project gcpdemoproject
 	gcloud config set container/use_client_certificate True
 
 prepare-contexts:

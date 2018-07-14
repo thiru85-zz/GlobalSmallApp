@@ -1,17 +1,17 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: globalgoapp
+  name: globalgobackend
   labels:
-    app: globalgoapp
+    app: globalgobackend
 spec:
   template:
     metadata:
       labels:
-        app: globalgoapp
+        app: globalgobackend
     spec:
       containers:
-      - name: globalgoapp
+      - name: globalgocontainer
         image: gcr.io/gcpdemoproject/globalgoapp:master
         ports:
         - containerPort: 8081

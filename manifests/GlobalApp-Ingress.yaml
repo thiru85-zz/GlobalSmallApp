@@ -10,9 +10,9 @@ spec:
       paths:
       - path: /*
         backend:
-          serviceName: globalnodeapp
+          serviceName: globalnodeapp-nodeport
           servicePort: 80
       - path: /gohello
         backend:
-          serviceName: globalgoapp
+          serviceName: globalgoapp-nodeport
           servicePort: 81

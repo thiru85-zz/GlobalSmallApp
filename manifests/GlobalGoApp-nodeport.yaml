@@ -7,7 +7,7 @@ metadata:
 spec:
   type: NodePort
   selector:
-    app: globalgoapp
+    app: globalgobackend
   ports:
   - port: 81
     targetPort: 8081

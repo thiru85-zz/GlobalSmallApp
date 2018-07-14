@@ -1,12 +1,12 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: globalgoapp-nodeport
+  name: globalgoapp-lbnodeport
   labels:
-    app: globalgoapp-nodeport
+    app: globalgoapp-lbnodeport
 spec:
   selector:
-    app: globalgoapp-nodeport
+    app: globalgobackend
   ports:
   - protocol: TCP
     port: 80

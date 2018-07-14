@@ -1,0 +1,14 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: globalgoapp-nodeport
+  labels:
+    app: globalgoapp-nodeport
+spec:
+  selector:
+    app: globalgoapp-nodeport
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8081
+  type: LoadBalancer

@@ -49,7 +49,7 @@ get-kubefed:
 
 create-federatedcluster:
 	gcloud config set container/use_client_certificate True
-    kubefed init "$(FEDNAME)" --host-cluster-context="$(ASIACLUSTER_NAME)" --dns-zone-name="gcpdemo.xyz" --dns-provider="google-clouddns"
+	kubefed init "$(FEDNAME)" --host-cluster-context="$(ASIACLUSTER_NAME)" --dns-zone-name="gcpdemo.xyz" --dns-provider="google-clouddns"
 	kubefed --context "$(FEDNAME)" join "$(ASIACLUSTER_NAME)" --cluster-context="$(ASIACLUSTER_NAME)" --host-cluster-context="$(ASIACLUSTER_NAME)"
 	kubefed --context "$(FEDNAME)" join "$(EUCLUSTER_NAME)" --cluster-context="$(EUCLUSTER_NAME)" --host-cluster-context="$(ASIACLUSTER_NAME)"
 	kubefed --context "$(FEDNAME)" join "$(USCLUSTER_NAME)" --cluster-context="$(USCLUSTER_NAME)" --host-cluster-context="$(ASIACLUSTER_NAME)"

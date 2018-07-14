@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: globalgoapp-nodeport
   labels:
-    app:
+    app: globalgoapp-nodeport
 spec:
   type: NodePort
   selector:

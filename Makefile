@@ -74,8 +74,8 @@ create-globalip:
 	gcloud compute addresses create globalapp-ip --global
 
 create-deployment2:
-	kubectl --context="$(FEDNAME)" create -f manifests/GlobalGoApp-deployment.yaml
-	kubectl --context="$(FEDNAME)" create -f manifests/GlobalSmallApp-deployment.yaml
+	kubectl --context="$(FEDNAME)" create -f manifests/GlobalGoApp-feddeployment.yaml
+	kubectl --context="$(FEDNAME)" create -f manifests/GlobalSmallApp-feddeployment.yaml
 	kubectl --context="$(FEDNAME)" get pods
 
 create-nodeport2:

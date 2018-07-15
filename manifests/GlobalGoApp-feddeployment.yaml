@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: globalgobackend
+  labels:
+    app: globalgobackend
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: globalgobackend
+  template:
+    metadata:
+      labels:
+        app: globalgobackend
+    spec:
+      containers:
+      - name: globalgocontainer
+        image: gcr.io/gcpdemoproject/globalgoapp:master
+        ports:
+        - containerPort: 8081

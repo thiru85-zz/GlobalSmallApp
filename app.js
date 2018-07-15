@@ -49,7 +49,7 @@ var opts = { //setting options for pulling metadata
 var form = '<!DOCTYPE HTML><html>' +
   "<body>" +
   "<head>" +
-  "<style> h1 {color: green;} h3 {color: blue;} </style></head>" +
+  "<style> h1 {color: red;} h3 {color: blue;} </style></head>" +
   "<p>" +
   "<p>" +
   "<h1>Hi IOxKL!</h1>" +

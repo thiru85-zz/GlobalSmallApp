@@ -102,7 +102,7 @@ delete-contexts:
 
 create-testdeployment:
 
-	kubectl --context=$(ASIACLUSTER_NAME) create -f create -f manifests/GlobalGoApp-deployment.yaml
+	kubectl --context=$(ASIACLUSTER_NAME) create -f manifests/GlobalGoApp-deployment.yaml
 	kubectl --context=$(EUCLUSTER_NAME) create -f manifests/GlobalGoApp-deployment.yaml
 	kubectl --context=$(USCLUSTER_NAME) create -f manifests/GlobalGoApp-deployment.yaml
 	kubectl --context=$(ASIACLUSTER_NAME) create -f create -f manifests/GlobalSmallApp-deployment.yaml

@@ -105,13 +105,13 @@ create-testdeployment:
 	kubectl --context=$(ASIACLUSTER_NAME) create -f manifests/GlobalGoApp-deployment.yaml
 	kubectl --context=$(EUCLUSTER_NAME) create -f manifests/GlobalGoApp-deployment.yaml
 	kubectl --context=$(USCLUSTER_NAME) create -f manifests/GlobalGoApp-deployment.yaml
-	kubectl --context=$(ASIACLUSTER_NAME) create -f create -f manifests/GlobalSmallApp-deployment.yaml
+	kubectl --context=$(ASIACLUSTER_NAME) create -f manifests/GlobalSmallApp-deployment.yaml
 	kubectl --context=$(EUCLUSTER_NAME) create -f manifests/GlobalSmallApp-deployment.yaml
 	kubectl --context=$(USCLUSTER_NAME) create -f manifests/GlobalSmallApp-deployment.yaml
-	kubectl --context=$(ASIACLUSTER_NAME) create -f create -f manifests/GlobalGoApp-nodeport.yaml
+	kubectl --context=$(ASIACLUSTER_NAME) create -f manifests/GlobalGoApp-nodeport.yaml
 	kubectl --context=$(EUCLUSTER_NAME) create -f manifests/GlobalGoApp-nodeport.yaml
 	kubectl --context=$(USCLUSTER_NAME) create -f manifests/GlobalGoApp-nodeport.yaml
-	kubectl --context=$(ASIACLUSTER_NAME) create -f create -f manifests/GlobalSmallApp-nodeport.yaml
+	kubectl --context=$(ASIACLUSTER_NAME) create -f manifests/GlobalSmallApp-nodeport.yaml
 	kubectl --context=$(EUCLUSTER_NAME) create -f manifests/GlobalSmallApp-nodeport.yaml
 	kubectl --context=$(USCLUSTER_NAME) create -f manifests/GlobalSmallApp-nodeport.yaml
 	kubectl --context=$(ASIACLUSTER_NAME) create -f manifests/GlobalApp-Ingress.yaml

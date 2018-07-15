@@ -42,7 +42,13 @@ prepare-contexts:
 	kubectl config delete-context gke_$(PROJECT_ID)_$(ASIAZONE)_$(ASIACLUSTER_NAME)
 	kubectl config delete-context gke_$(PROJECT_ID)_$(EUZONE)_$(EUCLUSTER_NAME)
 	kubectl config delete-context gke_$(PROJECT_ID)_$(USZONE)_$(USCLUSTER_NAME)
-	
+	kubectl create clusterrolebinding clrbinding --clusterrole=cluster-admin --user=nodedemo1@gcpdemoproject.iam.gserviceaccount.com
+	kubectl config use-context $(EUCLUSTER_NAME)
+	kubectl create clusterrolebinding clrbinding --clusterrole=cluster-admin --user=nodedemo1@gcpdemoproject.iam.gserviceaccount.com
+	kubectl config use-context $(USCLUSTER_NAME)
+	kubectl create clusterrolebinding clrbinding --clusterrole=cluster-admin --user=nodedemo1@gcpdemoproject.iam.gserviceaccount.com
+	kubectl config use-context $(ASIACLUSTER_NAME)
+
 
 get-kubefed:
 	gsutil cp gs://kubernetes-federation-release/release/v1.9.0-beta.0/federation-client-linux-amd64.tar.gz .
@@ -118,4 +124,7 @@ create-testdeployment:
 	kubectl --context=$(EUCLUSTER_NAME) create -f manifests/GlobalApp-Ingress.yaml
 	kubectl --context=$(USCLUSTER_NAME) create -f manifests/GlobalApp-Ingress.yaml
 
-	
+create-testdeployment2:
+	kubectl --context=$(ASIACLUSTER_NAME) apply -f manifests/GlobalSmallApp-deployment.yaml
+	kubectl --context=$(EUCLUSTER_NAME) apply -f manifests/GlobalSmallApp-deployment.yaml
+	kubectl --context=$(USCLUSTER_NAME) apply -f manifests/GlobalSmallApp-deployment.yaml

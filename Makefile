@@ -99,3 +99,23 @@ delete-contexts:
 	kubectl config delete-context gke_gcpdemoproject_asia-southeast1-a_asia-cluster
 	kubectl config delete-context gke_gcpdemoproject_europe-west2-a_eu-cluster
 	kubectl config delete-context gke_gcpdemoproject_us-central1-a_us-cluster
+
+create-testdeployment:
+
+	kubectl --context=$(ASIACLUSTER_NAME) create -f create -f manifests/GlobalGoApp-deployment.yaml
+	kubectl --context=$(EUCLUSTER_NAME) create -f manifests/GlobalGoApp-deployment.yaml
+	kubectl --context=$(USCLUSTER_NAME) create -f manifests/GlobalGoApp-deployment.yaml
+	kubectl --context=$(ASIACLUSTER_NAME) create -f create -f manifests/GlobalSmallApp-deployment.yaml
+	kubectl --context=$(EUCLUSTER_NAME) create -f manifests/GlobalSmallApp-deployment.yaml
+	kubectl --context=$(USCLUSTER_NAME) create -f manifests/GlobalSmallApp-deployment.yaml
+	kubectl --context=$(ASIACLUSTER_NAME) create -f create -f manifests/GlobalGoApp-nodeport.yaml
+	kubectl --context=$(EUCLUSTER_NAME) create -f manifests/GlobalGoApp-nodeport.yaml
+	kubectl --context=$(USCLUSTER_NAME) create -f manifests/GlobalGoApp-nodeport.yaml
+	kubectl --context=$(ASIACLUSTER_NAME) create -f create -f manifests/GlobalSmallApp-nodeport.yaml
+	kubectl --context=$(EUCLUSTER_NAME) create -f manifests/GlobalSmallApp-nodeport.yaml
+	kubectl --context=$(USCLUSTER_NAME) create -f manifests/GlobalSmallApp-nodeport.yaml
+	kubectl --context=$(ASIACLUSTER_NAME) create -f manifests/GlobalApp-Ingress.yaml
+	kubectl --context=$(EUCLUSTER_NAME) create -f manifests/GlobalApp-Ingress.yaml
+	kubectl --context=$(USCLUSTER_NAME) create -f manifests/GlobalApp-Ingress.yaml
+
+	

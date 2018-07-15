@@ -13,7 +13,7 @@ spec:
     metadata:
       labels:
         app: globalwebfe
-  spec:
+    spec:
       containers:
       - name: globalnodecontainer
         image: gcr.io/gcpdemoproject/globalsmallapp:master

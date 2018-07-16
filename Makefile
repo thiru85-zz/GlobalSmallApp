@@ -29,7 +29,6 @@ create-allclusters:
 	gcloud container --project "$(PROJECT_ID)" clusters create "$(ASIACLUSTER_NAME)" --zone "$(ASIAZONE)" --machine-type "n1-standard-1" --image-type "COS" --disk-size "100" --scopes "https://www.googleapis.com/auth/compute","https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring","https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly","https://www.googleapis.com/auth/trace.append","https://www.googleapis.com/auth/ndev.clouddns.readwrite","https://www.googleapis.com/auth/cloud-platform" --num-nodes "3" --network "default" --enable-cloud-logging --enable-cloud-monitoring
 	gcloud container --project "$(PROJECT_ID)" clusters create "$(EUCLUSTER_NAME)" --zone "$(EUZONE)" --machine-type "n1-standard-1" --image-type "COS" --disk-size "100" --scopes "https://www.googleapis.com/auth/compute","https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring","https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly","https://www.googleapis.com/auth/trace.append","https://www.googleapis.com/auth/ndev.clouddns.readwrite","https://www.googleapis.com/auth/cloud-platform" --num-nodes "3" --network "default" --enable-cloud-logging --enable-cloud-monitoring
 	gcloud container --project "$(PROJECT_ID)" clusters create "$(USCLUSTER_NAME)" --zone "$(USZONE)" --machine-type "n1-standard-1" --image-type "COS" --disk-size "100" --scopes "https://www.googleapis.com/auth/compute","https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring","https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly","https://www.googleapis.com/auth/trace.append","https://www.googleapis.com/auth/ndev.clouddns.readwrite","https://www.googleapis.com/auth/cloud-platform" --num-nodes "3" --network "default" --enable-cloud-logging --enable-cloud-monitoring
-#	gcloud config set container/use_client_certificate True
 	gcloud container clusters get-credentials "$(ASIACLUSTER_NAME)" --zone "$(ASIAZONE)" --project gcpdemoproject
 	gcloud container clusters get-credentials "$(EUCLUSTER_NAME)" --zone "$(EUZONE)" --project gcpdemoproject
 	gcloud container clusters get-credentials "$(USCLUSTER_NAME)" --zone "$(USZONE)" --project gcpdemoproject
@@ -42,11 +41,11 @@ prepare-contexts:
 	kubectl config delete-context gke_$(PROJECT_ID)_$(ASIAZONE)_$(ASIACLUSTER_NAME)
 	kubectl config delete-context gke_$(PROJECT_ID)_$(EUZONE)_$(EUCLUSTER_NAME)
 	kubectl config delete-context gke_$(PROJECT_ID)_$(USZONE)_$(USCLUSTER_NAME)
-	kubectl create clusterrolebinding clrbinding --clusterrole=cluster-admin --user=nodedemo1@gcpdemoproject.iam.gserviceaccount.com #change this to your service account
+	kubectl create clusterrolebinding clrbinding --clusterrole=cluster-admin --user=<TODO> #change this to your service account
 	kubectl config use-context $(EUCLUSTER_NAME)
-	kubectl create clusterrolebinding clrbinding --clusterrole=cluster-admin --user=nodedemo1@gcpdemoproject.iam.gserviceaccount.com #change this to your service account
+	kubectl create clusterrolebinding clrbinding --clusterrole=cluster-admin --user=<TODO> #change this to your service account
 	kubectl config use-context $(USCLUSTER_NAME)
-	kubectl create clusterrolebinding clrbinding --clusterrole=cluster-admin --user=nodedemo1@gcpdemoproject.iam.gserviceaccount.com #change this to your service account
+	kubectl create clusterrolebinding clrbinding --clusterrole=cluster-admin --user=<TODO> #change this to your service account
 	kubectl config use-context $(ASIACLUSTER_NAME)
 
 
@@ -57,7 +56,6 @@ get-kubefed:
 	sudo chmod +X /usr/local/bin/kubefed #this isn't necessary, but including just in case.
 
 create-federatedcluster:
-#	kubectl create clusterrolebinding asia-admin-binding --clusterrole=cluster-admin --user=nodedemo1@gcpgemoproject.iam.gserviceaccount.com
 	kubefed init $(FEDNAME) --host-cluster-context=$(ASIACLUSTER_NAME) --dns-zone-name="gcpdemo.xyz" --dns-provider="google-clouddns"
 	kubefed --context $(FEDNAME) join $(ASIACLUSTER_NAME) --cluster-context=$(ASIACLUSTER_NAME) --host-cluster-context=$(ASIACLUSTER_NAME)
 	kubefed --context $(FEDNAME) join $(EUCLUSTER_NAME) --cluster-context=$(EUCLUSTER_NAME) --host-cluster-context=$(ASIACLUSTER_NAME)
@@ -66,7 +64,7 @@ create-federatedcluster:
 	kubectl --context=$(FEDNAME) get all
 
 create-rolebinding1:
-	kubectl create clusterrolebinding clrbinding --clusterrole=cluster-admin --user=nodedemo1@gcpdemoproject.iam.gserviceaccount.com
+	kubectl create clusterrolebinding clrbinding --clusterrole=cluster-admin --user=<TODO>
 
 create-rolebinding2:
 	kubectl create clusterrolebinding clrbinding --clusterrole=cluster-admin --user=admin
@@ -89,18 +87,11 @@ create-ingress:
 	kubectl --context="$(FEDNAME)" describe ingress
 
 create-secret:
-	kubectl create secret generic thekey --from-file=/home/taiyalu/Code/thekey.json
+	kubectl create secret generic thekey --from-file=<PATH-TO-KEY-FILE>
 
 create-secretdeployment:
 	kubectl --context="$(FEDNAME)" delete -f manifests/GlobalSmallApp-deployment.yaml
 	kubectl --context="$(FEDNAME)" create -f manifests/GlobalSmallApp-deploymentwithkey.yaml
-
-create-connecttocluster:
-	gcloud config unset container/use_client_certificate
-	gcloud container clusters get-credentials asia-cluster --zone asia-southeast1-a --project gcpdemoproject
-	gcloud container clusters get-credentials eu-cluster --zone europe-west2-a --project gcpdemoproject
-	gcloud container clusters get-credentials us-cluster --zone us-central1-a --project gcpdemoproject
-	kubectl create clusterrolebinding asia-admin-binding --clusterrole=cluster-admin --username=nodedemo1@gcpgemoproject.iam.gserviceaccount.com
 
 delete-contexts:
 	kubectl config delete-context gke_gcpdemoproject_asia-southeast1-a_asia-cluster

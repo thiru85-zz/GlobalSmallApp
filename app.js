@@ -27,7 +27,7 @@ var os = require('os');
 // Set up auth
 var vision = require('@google-cloud/vision');
 
-// 
+// save pod-name (because this is meant to run on k8s)
 var hostname = os.hostname();
 
 var vision1 = new vision.ImageAnnotatorClient({
@@ -59,7 +59,7 @@ var form = '<!DOCTYPE HTML><html>' +
   "<input type='submit'/></form>" +
   "<p>" +
   "<form action='/gohello'>" +
-  "<input type='button' value='HelloGo?'/></form>" +
+  "<input type='submit' value='HelloGo?'/></form>" +
   "<p>" +
   "<p>" +
   "<h1>This was rendered by the pod: " + hostname + "</h1>" +

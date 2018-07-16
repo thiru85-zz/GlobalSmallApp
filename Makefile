@@ -13,7 +13,7 @@ USZONE=us-central1-a
 
 create-cluster1:
 	gcloud container --project "$(PROJECT_ID)" clusters create "$(CLUSTER_NAME)" --zone "$(ZONE)" --machine-type "n1-standard-1" --image-type "COS" --disk-size "100" --scopes "https://www.googleapis.com/auth/compute","https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring","https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly","https://www.googleapis.com/auth/trace.append" --num-nodes "3" --network "default" --enable-cloud-logging --enable-cloud-monitoring
-	gcloud container clusters get-credentials "$(CLUSTER_NAME)" --zone "$(ZONE)" --project gcpdemoproject
+	gcloud container clusters get-credentials $(CLUSTER_NAME) --zone $(ZONE) --project $(PROJECT_ID)
 
 create-deployment1:
 	kubectl create -f manifests/GlobalGoApp-deployment.yaml
@@ -22,8 +22,8 @@ create-loadbalancer1:
 	kubectl create -f manifests/GlobalGoApp-loadbalancer.yaml
 
 delete-cluster1:
-	gcloud container clusters delete "$(CLUSTER_NAME)" --zone "$(ZONE)"
-#	kubectl config delete-contexts gke_"$(PROJECT_ID)"_"$(ZONE)"_"$(CLUSTER_NAME)"
+	gcloud --quiet container clusters delete "$(CLUSTER_NAME)" --zone "$(ZONE)"
+
 
 create-allclusters:
 	gcloud container --project "$(PROJECT_ID)" clusters create "$(ASIACLUSTER_NAME)" --zone "$(ASIAZONE)" --machine-type "n1-standard-1" --image-type "COS" --disk-size "100" --scopes "https://www.googleapis.com/auth/compute","https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring","https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly","https://www.googleapis.com/auth/trace.append","https://www.googleapis.com/auth/ndev.clouddns.readwrite","https://www.googleapis.com/auth/cloud-platform" --num-nodes "3" --network "default" --enable-cloud-logging --enable-cloud-monitoring
@@ -42,11 +42,11 @@ prepare-contexts:
 	kubectl config delete-context gke_$(PROJECT_ID)_$(ASIAZONE)_$(ASIACLUSTER_NAME)
 	kubectl config delete-context gke_$(PROJECT_ID)_$(EUZONE)_$(EUCLUSTER_NAME)
 	kubectl config delete-context gke_$(PROJECT_ID)_$(USZONE)_$(USCLUSTER_NAME)
-	kubectl create clusterrolebinding clrbinding --clusterrole=cluster-admin --user=nodedemo1@gcpdemoproject.iam.gserviceaccount.com
+	kubectl create clusterrolebinding clrbinding --clusterrole=cluster-admin --user=nodedemo1@gcpdemoproject.iam.gserviceaccount.com #change this to your service account
 	kubectl config use-context $(EUCLUSTER_NAME)
-	kubectl create clusterrolebinding clrbinding --clusterrole=cluster-admin --user=nodedemo1@gcpdemoproject.iam.gserviceaccount.com
+	kubectl create clusterrolebinding clrbinding --clusterrole=cluster-admin --user=nodedemo1@gcpdemoproject.iam.gserviceaccount.com #change this to your service account
 	kubectl config use-context $(USCLUSTER_NAME)
-	kubectl create clusterrolebinding clrbinding --clusterrole=cluster-admin --user=nodedemo1@gcpdemoproject.iam.gserviceaccount.com
+	kubectl create clusterrolebinding clrbinding --clusterrole=cluster-admin --user=nodedemo1@gcpdemoproject.iam.gserviceaccount.com #change this to your service account
 	kubectl config use-context $(ASIACLUSTER_NAME)
 
 
@@ -54,6 +54,7 @@ get-kubefed:
 	gsutil cp gs://kubernetes-federation-release/release/v1.9.0-beta.0/federation-client-linux-amd64.tar.gz .
 	tar -xzvf federation-client-linux-amd64.tar.gz
 	sudo cp federation/client/bin/kubefed /usr/local/bin
+	sudo chmod +X /usr/local/bin/kubefed #this isn't necessary, but including just in case.
 
 create-federatedcluster:
 #	kubectl create clusterrolebinding asia-admin-binding --clusterrole=cluster-admin --user=nodedemo1@gcpgemoproject.iam.gserviceaccount.com

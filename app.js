@@ -28,6 +28,7 @@ var os = require('os');
 var vision = require('@google-cloud/vision');
 
 // save pod-name (because this is meant to run on k8s)
+// just made a random change
 var hostname = os.hostname();
 
 var vision1 = new vision.ImageAnnotatorClient({

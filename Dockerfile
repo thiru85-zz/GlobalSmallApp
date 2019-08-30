@@ -6,5 +6,6 @@ WORKDIR /app
 ADD package*.json /app/
 RUN npm install
 ADD . /app/
+ENV PORT 8080
 EXPOSE 8080
 CMD ["node", "app.js"]

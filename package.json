@@ -11,7 +11,8 @@
       "express": "latest",
       "@google-cloud/vision": "latest",
       "mime": "latest",
-      "multer": "latest"
+      "multer": "latest",
+      "request": "latest"
     },
     "license": "Apache-2.0"
   } 

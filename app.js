@@ -32,7 +32,7 @@ var vision = require('@google-cloud/vision');
 var hostname = os.hostname();
 
 var vision1 = new vision.ImageAnnotatorClient({
-    keyFilename:'/tmp/key.json', //tadaaaaa this is where the magic happens - we will be using Kubernetes Secrets for this
+    keyFilename:'key.json', //tadaaaaa this is where the magic happens - we will be using Kubernetes Secrets for this
     projectId: 'gcpdemoproject'
 }); //auth to project
 

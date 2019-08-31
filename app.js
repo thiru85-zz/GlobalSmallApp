@@ -53,20 +53,20 @@ var form = '<!DOCTYPE HTML><html>' +
   "<style> h1 {color: red;} h3 {color: blue;} </style></head>" +
   "<p>" +
   "<p>" +
-  "<h1>Hi IOxKL!</h1>" +
+  "<h1>Hi WWC Connect Asia 2019!</h1>" +
   "<h1>This is a sample App to send an image to the Vision API and return a response</h1>" +
   "<form method='post' action='/upload' enctype='multipart/form-data'>" +
   "<input type='file' name='image'/>" +
   "<input type='submit'/></form>" +
   "<p>" +
   "<form action='/gohello'>" +
-  "<input type='submit' value='HelloGo?'/></form>" +
+  //"<input type='submit' value='HelloGo?'/></form>" +
   "<p>" +
   "<p>" +
-  "<h1>This was rendered by the pod: " + hostname + "</h1>" +
+  //"<h1>This was rendered by the pod: " + hostname + "</h1>" +
   "<p>" +
   "<p>" +
-  '<h3> And running on the GKE Node: ';
+  '<h3> And running on Cloud Run!';
 
 var pageEnd = '</h3></body></html>';
 

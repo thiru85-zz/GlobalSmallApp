@@ -53,7 +53,7 @@ var form = '<!DOCTYPE HTML><html>' +
   "<style> h1 {color: red;} h3 {color: blue;} </style></head>" +
   "<p>" +
   "<p>" +
-  "<h1>Hi 2019!</h1>" +
+  "<h1>Hi Common Ground!</h1>" +
   "<h1>This is a sample App to send an image to the Vision API and return a response</h1>" +
   "<form method='post' action='/upload' enctype='multipart/form-data'>" +
   "<input type='file' name='image'/>" +
